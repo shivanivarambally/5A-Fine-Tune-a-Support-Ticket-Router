@@ -33,6 +33,26 @@ The validation sets changed between iterations, so the fine-tuned accuracy value
 
 The first iteration's per-class report also displayed category names in an incorrect order. The latest notebook fixes this by passing the explicit label order to every classification report and comparison chart.
 
+## Dataset Refinement
+
+After reviewing validation mistakes, the CSV was refined from 585 to 662 rows. Clear mislabeled examples were corrected, and new examples were added for `Active Directory` and `Support general`, with additional contrast examples for O365, Software, and Computer-Services. The final CSV was checked for blank ticket text, duplicate rows, and unknown labels.
+
+## Training Parameter Changes
+
+| Parameter | Iteration 1 | Iteration 2 |
+|---|---:|---:|
+| Learning rate | 5e-5 | 2e-5 |
+| Epochs | 3 | 3 |
+| LoRA rank | 8 | 16 |
+| LoRA dropout | 0 | 0.05 |
+| Batch size | 2 | 2 |
+| Gradient accumulation | 8 | 8 |
+| Cutoff length | 2048 | 512 |
+| Max gradient norm | 1.0 | 1.0 |
+| Scheduler | Cosine | Cosine |
+| Warmup ratio | None | 0.05 |
+| Compute type | bf16 | fp16 |
+
 ## Iteration 1 Results
 
 ```text

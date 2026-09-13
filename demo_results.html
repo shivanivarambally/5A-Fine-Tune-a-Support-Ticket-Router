@@ -31,10 +31,35 @@
 <tr><td>Test</td><td>Ran smoke tests, validation inference, classification metrics, a confusion matrix, and baseline comparison.</td></tr>
 </table>
 
+<h2>Evaluation Code Corrections</h2>
+<div class="banner"><strong>Important implementation change:</strong> the evaluation code was corrected after the first report displayed class metrics under the wrong names.</div>
+<table><tr><th>Notebook area</th><th>Change made</th><th>Why it matters</th></tr>
+<tr><td>Classification reports</td><td>Added <code>labels=LABEL_TOKENS</code> alongside <code>target_names=LABEL_TOKENS</code>.</td><td>Prevents scikit-learn's default alphabetical order from being paired with the custom displayed order.</td></tr>
+<tr><td>Confusion matrix</td><td>Kept the explicit label order for rows and columns and made row normalization safe with clipped row totals.</td><td>Ensures the matrix recalls match the report, even if a class has no examples.</td></tr>
+<tr><td>Comparison chart</td><td>Updated the per-class F1 helper to use the explicit label list.</td><td>Ensures each bar is labeled with the correct category.</td></tr>
+</table>
+
 <h2>Iteration Comparison</h2>
 <table><tr><th>Measure</th><th>Iteration 1</th><th>Iteration 2</th></tr>
 <tr><td>Dataset</td><td>585 rows</td><td>662 rows</td></tr><tr><td>Validation set</td><td>117 tickets</td><td>133 tickets</td></tr><tr><td>Base accuracy</td><td>24.8%</td><td>31.6%</td></tr><tr><td>Fine-tuned accuracy</td><td>72.6%</td><td>70.7%</td></tr><tr><td>Gain over base</td><td>+47.8 points</td><td>+39.1 points</td></tr><tr><td>Macro F1</td><td>0.679</td><td>0.710</td></tr><tr><td>Training loss</td><td>7.1462 → 0.1880</td><td>7.4624 → 0.2958</td></tr></table>
 <p class="note">The validation sets changed, so the two fine-tuned accuracy values are not a controlled head-to-head comparison. The latest notebook also fixes the explicit label ordering used by all reports and charts.</p>
+
+<h2>Training Parameter Changes</h2>
+<p>The second run changed several settings to improve stability and adapter capacity on the Tesla T4. Unchanged settings are included so the comparison is explicit.</p>
+<table><tr><th>Parameter</th><th>Iteration 1</th><th>Iteration 2</th><th>Reason for iteration-2 choice</th></tr>
+<tr><td>Learning rate</td><td>5e-5</td><td><strong>2e-5</strong></td><td>More conservative updates and less risk of instability.</td></tr>
+<tr><td>Epochs</td><td>3</td><td>3</td><td>Kept constant for a fairer training comparison.</td></tr>
+<tr><td>LoRA rank</td><td>8</td><td><strong>16</strong></td><td>More adapter capacity for category distinctions.</td></tr>
+<tr><td>LoRA dropout</td><td>0</td><td><strong>0.05</strong></td><td>Small regularization change to reduce overfitting.</td></tr>
+<tr><td>Batch size</td><td>2</td><td>2</td><td>Kept constant for T4 memory limits.</td></tr>
+<tr><td>Gradient accumulation</td><td>8</td><td>8</td><td>Kept constant; effective batch size remains 16.</td></tr>
+<tr><td>Cutoff length</td><td>2048</td><td><strong>512</strong></td><td>Ticket text is short; lower length reduces memory and runtime.</td></tr>
+<tr><td>Max gradient norm</td><td>1.0</td><td>1.0</td><td>Kept constant for gradient clipping.</td></tr>
+<tr><td>Scheduler</td><td>Cosine</td><td>Cosine</td><td>Kept constant.</td></tr>
+<tr><td>Warmup ratio</td><td>None</td><td><strong>0.05</strong></td><td>Gentler start to learning-rate updates.</td></tr>
+<tr><td>Compute type</td><td>bf16</td><td><strong>fp16</strong></td><td>Changed to match the Tesla T4 GPU.</td></tr>
+</table>
+<p class="note">The dataset also changed between runs: the reviewed dataset grew from 585 to 662 rows, with corrected labels and added examples for weak categories.</p>
 
 <h2>Screenshot Evidence Panels</h2>
 <p class="note">The original Colab screenshots were supplied in the conversation but are not local image files. These panels reproduce the visible result values in a demo-friendly format rather than linking to unavailable images.</p>
