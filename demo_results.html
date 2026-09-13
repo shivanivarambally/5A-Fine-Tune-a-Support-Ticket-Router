@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support Ticket Router Demo Results</title>
+<style>
+:root{--ink:#17212b;--muted:#5b6875;--line:#d9e0e7;--blue:#1769aa;--blue2:#90caf9;--green:#176b45;--orange:#e65100;--bg:#f4f7fa}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:1160px;margin:auto;padding:38px 22px 64px}h1{font-size:38px;line-height:1.1;margin:0 0 10px}h2{font-size:25px;margin:38px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}h3{font-size:19px;margin:24px 0 10px}.sub{color:var(--muted);font-size:18px;max-width:850px}.banner{background:#eaf4fb;border-left:5px solid var(--blue);padding:16px 18px;margin:24px 0}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px}.card,.panel{background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px}.card strong{display:block;color:var(--blue);font-size:29px}.card span{color:var(--muted)}table{width:100%;border-collapse:collapse;background:#fff;margin:12px 0 20px}th,td{border:1px solid var(--line);padding:9px 10px;text-align:left}th{background:#edf2f6}.num{text-align:center}.good{color:var(--green);font-weight:700}.warn{color:#9a5b00;font-weight:700}.note{font-size:14px;color:var(--muted)}.evidence{background:#101820;color:#d9e7ef;border-radius:8px;padding:17px;overflow:auto;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap}.matrix{font-size:13px}.matrix th,.matrix td{text-align:center}.matrix th:first-child{text-align:left;white-space:nowrap}.diag{background:#1769aa;color:#fff;font-weight:700}.light{background:#dceefa}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.bars{display:flex;align-items:end;gap:18px;height:245px;padding:18px 18px 0;border-left:1px solid #8896a3;border-bottom:1px solid #8896a3;background:linear-gradient(to top,#fff 1px,transparent 1px);background-size:100% 20%}.group{height:100%;display:flex;align-items:end;gap:4px;flex:1;position:relative}.bar{width:22px;min-height:2px;background:var(--blue2);position:relative}.bar.tuned{background:var(--blue)}.bar.overall{background:#ffcc80}.bar.overall.tuned{background:var(--orange)}.bar em{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font:11px ui-monospace,monospace;font-style:normal}.label{text-align:center;font-size:11px;color:var(--muted);margin-top:8px}.legend{font-size:13px;color:var(--muted);margin:10px 0}.legend i{display:inline-block;width:12px;height:12px;margin-right:4px;vertical-align:-1px;background:var(--blue2)}.legend i.tuned{background:var(--blue)}.screenshot{border:1px solid #aeb8c2;border-radius:7px;background:#f8fafc;padding:15px;box-shadow:0 2px 8px #17212b18}.screenshot-title{font-weight:700;color:#43515d;margin-bottom:9px}.screenshot small{color:var(--muted)}footer{border-top:1px solid var(--line);margin-top:42px;padding-top:15px;color:var(--muted);font-size:14px}@media(max-width:760px){main{padding:26px 14px}h1{font-size:30px}.grid{grid-template-columns:1fr}.matrix{font-size:11px;display:block;overflow-x:auto;white-space:nowrap}}
+</style>
+</head>
+<body>
+<main>
+<h1>Support Ticket Router Demo Results</h1>
+<p class="sub">A self-contained companion page for the Week 5 demo. It records the two fine-tuning iterations, the latest corrected evaluation, and the evidence to show during the walkthrough.</p>
+<div class="banner"><strong>Result:</strong> the latest fine-tuned model reached <strong>70.7% validation accuracy</strong> versus <strong>31.6%</strong> for the base model, a gain of <strong>39.1 percentage points</strong>.</div>
+
+<h2>Project at a Glance</h2>
+<div class="cards">
+<div class="card"><strong>7</strong><span>routing categories</span></div>
+<div class="card"><strong>662</strong><span>final labeled tickets</span></div>
+<div class="card"><strong>2</strong><span>fine-tuning iterations</span></div>
+<div class="card"><strong>70.7%</strong><span>latest validation accuracy</span></div>
+</div>
+
+<h2>What Was Done</h2>
+<table><tr><th>Phase</th><th>Observed work</th></tr>
+<tr><td>Prepare</td><td>Created a stratified 80/20 split and registered the ShareGPT training dataset.</td></tr>
+<tr><td>Fine-tune</td><td>Trained Qwen3 1.7B with a LoRA adapter through LLaMA Factory.</td></tr>
+<tr><td>Merge</td><td>Loaded the adapter, merged it into the base model, and saved a standalone checkpoint.</td></tr>
+<tr><td>Test</td><td>Ran smoke tests, validation inference, classification metrics, a confusion matrix, and baseline comparison.</td></tr>
+</table>
+
+<h2>Iteration Comparison</h2>
+<table><tr><th>Measure</th><th>Iteration 1</th><th>Iteration 2</th></tr>
+<tr><td>Dataset</td><td>585 rows</td><td>662 rows</td></tr><tr><td>Validation set</td><td>117 tickets</td><td>133 tickets</td></tr><tr><td>Base accuracy</td><td>24.8%</td><td>31.6%</td></tr><tr><td>Fine-tuned accuracy</td><td>72.6%</td><td>70.7%</td></tr><tr><td>Gain over base</td><td>+47.8 points</td><td>+39.1 points</td></tr><tr><td>Macro F1</td><td>0.679</td><td>0.710</td></tr><tr><td>Training loss</td><td>7.1462 → 0.1880</td><td>7.4624 → 0.2958</td></tr></table>
+<p class="note">The validation sets changed, so the two fine-tuned accuracy values are not a controlled head-to-head comparison. The latest notebook also fixes the explicit label ordering used by all reports and charts.</p>
+
+<h2>Screenshot Evidence Panels</h2>
+<p class="note">The original Colab screenshots were supplied in the conversation but are not local image files. These panels reproduce the visible result values in a demo-friendly format rather than linking to unavailable images.</p>
+<div class="grid">
+<div class="screenshot"><div class="screenshot-title">Iteration 1: training loss and evaluation</div><div class="evidence">Starting loss : 7.1462
+Final loss    : 0.1880
+Total drop    : 6.9582
+
+Base accuracy      : 24.8%
+Fine-tuned accuracy: 72.6%
+Macro F1           : 0.679</div></div>
+<div class="screenshot"><div class="screenshot-title">Iteration 2: training loss and evaluation</div><div class="evidence">Starting loss : 7.4624
+Final loss    : 0.2958
+Total drop    : 7.1665
+
+Base accuracy      : 31.6%
+Fine-tuned accuracy: 70.7%
+Delta              : +39.1%</div></div>
+</div>
+
+<h2>Latest Classification Report</h2>
+<table><tr><th>Category</th><th>Precision</th><th>Recall</th><th>F1</th><th>Support</th></tr>
+<tr><td>Support general</td><td class="num">0.600</td><td class="num">0.667</td><td class="num">0.632</td><td class="num">36</td></tr>
+<tr><td>Fileservice</td><td class="num">0.750</td><td class="num">0.778</td><td class="num">0.764</td><td class="num">27</td></tr>
+<tr><td>O365</td><td class="num">0.700</td><td class="num">0.737</td><td class="num">0.718</td><td class="num">19</td></tr>
+<tr><td>EOL</td><td class="num">0.917</td><td class="num">0.917</td><td class="num">0.917</td><td class="num">12</td></tr>
+<tr><td>Software</td><td class="num">0.778</td><td class="num">0.583</td><td class="num">0.667</td><td class="num">12</td></tr>
+<tr><td>Active Directory</td><td class="num">0.684</td><td class="num">0.722</td><td class="num">0.703</td><td class="num">18</td></tr>
+<tr><td>Computer-Services</td><td class="num">0.800</td><td class="num">0.444</td><td class="num">0.571</td><td class="num">9</td></tr>
+<tr><th>Accuracy</th><th></th><th></th><th class="num">0.707</th><th class="num">133</th></tr>
+<tr><th>Macro average</th><th class="num">0.747</th><th class="num">0.693</th><th class="num">0.710</th><th class="num">133</th></tr>
+<tr><th>Weighted average</th><th class="num">0.714</th><th class="num">0.707</th><th class="num">0.705</th><th class="num">133</th></tr></table>
+
+<h2>Latest Confusion Matrix</h2>
+<table class="matrix"><tr><th>True \\ Predicted</th><th>Support general</th><th>Fileservice</th><th>O365</th><th>EOL</th><th>Software</th><th>Active Directory</th><th>Computer-Services</th></tr>
+<tr><th>Support general</th><td class="diag">24</td><td>3</td><td>5</td><td>1</td><td>1</td><td>2</td><td>0</td></tr>
+<tr><th>Fileservice</th><td>2</td><td class="diag">21</td><td>0</td><td>0</td><td>1</td><td>3</td><td>0</td></tr>
+<tr><th>O365</th><td>2</td><td>3</td><td class="diag">14</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><th>EOL</th><td>0</td><td>0</td><td>0</td><td class="diag">11</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><th>Software</th><td>3</td><td>0</td><td>1</td><td>0</td><td class="diag">7</td><td>1</td><td>0</td></tr>
+<tr><th>Active Directory</th><td>5</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="diag">13</td><td>0</td></tr>
+<tr><th>Computer-Services</th><td>4</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="diag">4</td></tr></table>
+<p><strong>Strongest:</strong> EOL recall at <span class="good">91.7%</span>. <strong>Needs attention:</strong> Computer-Services recall at <span class="warn">44.4%</span>.</p>
+
+<h2>Baseline vs Fine-Tuned Chart</h2>
+<div class="panel"><div class="legend"><i></i> Base model &nbsp;&nbsp; <i class="tuned"></i> Fine-tuned model</div><div class="bars">
+<div class="group"><div class="bar" style="height:36%"><em>.36</em></div><div class="bar tuned" style="height:63%"><em>.63</em></div></div>
+<div class="group"><div class="bar" style="height:2%"><em>0</em></div><div class="bar tuned" style="height:76%"><em>.76</em></div></div>
+<div class="group"><div class="bar" style="height:19%"><em>.19</em></div><div class="bar tuned" style="height:72%"><em>.72</em></div></div>
+<div class="group"><div class="bar" style="height:2%"><em>0</em></div><div class="bar tuned" style="height:92%"><em>.92</em></div></div>
+<div class="group"><div class="bar" style="height:12%"><em>.12</em></div><div class="bar tuned" style="height:67%"><em>.67</em></div></div>
+<div class="group"><div class="bar" style="height:36%"><em>.36</em></div><div class="bar tuned" style="height:70%"><em>.70</em></div></div>
+<div class="group"><div class="bar" style="height:2%"><em>0</em></div><div class="bar tuned" style="height:57%"><em>.57</em></div></div>
+<div class="group"><div class="bar overall" style="height:32%"><em>.32</em></div><div class="bar overall tuned" style="height:71%"><em>.71</em></div></div>
+</div><div class="grid"><div class="label">Support general</div><div class="label">Fileservice</div><div class="label">O365</div><div class="label">EOL</div><div class="label">Software</div><div class="label">Active Directory</div><div class="label">Computer-Services</div><div class="label">Overall accuracy</div></div></div>
+
+<h2>Conclusion</h2>
+<ul><li>Fine-tuning improved the latest model from 31.6% to 70.7% accuracy.</li><li>The latest model is a successful prototype with macro F1 of 0.710.</li><li>EOL, Fileservice, and Active Directory are the strongest current routing areas.</li><li>Computer-Services is the main remaining weakness.</li><li>A fair comparison of both iterations requires the same fixed test set.</li></ul>
+
+<footer>Companion demo artifact for the Week 5 Support Ticket Router project. The original Colab image files were not present in the repository, so evidence is reproduced from the supplied screenshots and notebook outputs.</footer>
+</main>
+</body>
+</html>
